@@ -1,215 +1,128 @@
-# FoodBridge 🌉🌱
+# FoodBridge
 
-> **"Rescue Food. Reduce Waste. Share Hope."**
+**Rescue food. Reduce waste. Share hope.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Frontend](https://img.shields.io/badge/Frontend-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-1A5336)](index.html)
-[![Backend](https://img.shields.io/badge/Backend-Python%20Flask%20%7C%20SQLite-22C55E)](#run-the-flask-application)
-[![UN SDGs](https://img.shields.io/badge/UN%20SDGs-SDG%202%20%7C%20SDG%2012-EAB308)](#sustainability--social-impact)
+FoodBridge connects food donors with verified community organisations. Donors publish surplus food listings, NGOs request collections, and administrators review NGO registrations.
 
-**FoodBridge** is an open-source surplus food coordination and waste reduction platform created for a college hackathon. It connects commercial food providers (restaurants, hotels, hostels, supermarkets, banquet halls) with verified charities, shelters, and community food pantries.
+## Features
 
----
+- Searchable donations with pickup deadlines, storage details, and allergen disclosures.
+- Server-backed accounts, role-based permissions, and NGO verification.
+- Collection request and status workflows with NGO capacity checks.
+- SQLite persistence and impact metrics.
+- Optional donor-reviewed food category and description suggestions using local Ollama and `gemma4:e2b`.
 
-## 🍽️ The Problem & Our Solution
+## Run locally (Windows)
 
-### The Problem
-Commercial kitchens routinely prepare food for peak capacity. At the end of dinner services, wedding banquets, and retail shifts, large batches of safe, untouched, culinary-grade food are thrown into dumpsters due to a lack of immediate, verified pickup channels. Meanwhile, grassroots shelters struggle with food insecurity.
+Use the Flask server to run both the website and API. Do not open the HTML files directly.
 
-### The Solution
-FoodBridge provides an organized, transparent surplus discovery platform where:
-- **Donors** post surplus batches in seconds with mandatory storage specifications, preparation timestamps, and allergen disclosures.
-- **Accredited NGOs** discover available food in their neighborhood and dispatch volunteers equipped with proper thermal transport (coolers, refrigerated vans).
-- **Admins** audit food safety disclosures and verify NGO non-profit registrations.
+### 1. Install dependencies
 
-> ⚠️ **Important:** FoodBridge is **NOT** a consumer food ordering or delivery application like UberEats or DoorDash. FoodBridge is a non-commercial community rescue and distribution tool focused exclusively on diverting landfill food waste.
-
----
-
-## 🎨 Visual Identity & Design System
-
-- **Forest Green (`#1A5336`)**: Trust, sustainability, and agricultural stewardship.
-- **Vibrant Accent & Lime (`#22C55E`, `#84CC16`)**: Freshness, momentum, and ecological renewal.
-- **Warm Cream & Soft Surfaces (`#FBF9F4`, `#F4EFE6`)**: Welcoming, dignified, and premium food-tech SaaS aesthetic.
-- **Dark Mode Support**: Full light/dark theme toggle persisted across all pages.
-- **Responsive Layout**: Designed for mobile phones, tablets, and desktop workstations.
-
----
-
-## 📁 Project Structure
-
-```
-FoodBridge/
-├── index.html              # Modern landing page with hero, stats ticker & featured feed
-├── about.html              # Our mission, SDG 2/12 alignment, and Good Samaritan legal protections
-├── how-it-works.html       # Step-by-step rescue lifecycle, comparison tables, and FAQs
-├── browse.html             # Real-time searchable surplus food directory with multi-filters
-├── donation-details.html   # Detailed food view, allergen chips, pickup countdown & request modal
-├── login.html              # Server-backed account sign-in
-├── register.html           # Dual registration for Food Donors vs Community NGOs
-├── donor-dashboard.html    # Donor operations: create listings and manage collection requests
-├── ngo-dashboard.html      # NGO portal: verification status, request tracker & feed
-├── admin-dashboard.html    # Platform oversight: verification queue, audit table & canvas charts
-├── profile.html            # User and organization settings with optional demo reset
-├── contact.html            # Inquiry form, office details, and 24/7 Evening Surplus Hotline
-├── css/
-│   ├── variables.css       # Complete CSS design tokens, color palette, dark mode vars
-│   ├── main.css            # Base stylesheet, typography, buttons, navbar & modals
-│   ├── components.css      # Reusable UI cards, badges, timers, search bar & hero
-│   └── dashboard.css       # Professional dashboard grids, sidebars, metrics & tables
-├── js/
-│   ├── data.js             # Realistic sample seed data for donations, NGOs & requests
-│   ├── store.js            # Fetch client for the Flask JSON API
-│   ├── auth.js             # Flask session authentication
-│   ├── ui.js               # Toast alerts, modal controller, theme manager & SVG icons
-│   ├── main.js             # Landing page dynamic stats counter and featured feed
-│   ├── browse.js           # Search, category pills, city and dietary filtering logic
-│   ├── details.js          # Single donation view & NGO collection request flow
-│   ├── donor.js            # Donor listing creation/editing and request approval
-│   ├── ngo.js              # NGO dashboard, request tracker & verification status
-│   ├── ngo-capacity.js     # Active collection capacity tracking
-│   ├── qr-verify.js        # Clearly labeled visual collection-token demo
-│   ├── impact-calculator.js # Disclosed impact estimate assumptions
-│   ├── notifications.js    # Local in-app notification drawer
-│   ├── language.js         # English and Hindi landing-page strings
-│   ├── admin.js            # Admin verification queue, listing moderation & canvas charts
-│   └── profile.js          # Profile editing & demo state reset controller
-├── assets/
-│   └── logo.svg            # Custom FoodBridge brandmark
-├── backend/
-│   ├── app.py              # Flask API, SQLite persistence, sessions, and Ollama integration
-│   └── test_app.py         # Backend API tests
-├── requirements.txt        # Python dependencies
-├── README.md               # Documentation & setup guide
-├── LICENSE                 # MIT License
-└── .gitignore              # Standard git exclusion rules
-```
-
----
-
-## 🚀 Run the Flask Application
-
-The site and API are served from one Flask origin. Do not open the HTML files directly or use a separate static server: authentication cookies and API requests require the Flask origin.
-
-From the project directory, create a virtual environment and install the dependencies:
+Open PowerShell in the project folder:
 
 ```powershell
 $python = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
-if (-not (Test-Path $python)) { throw "Install Python 3.12 or update `$python to its executable path." }
+if (-not (Test-Path $python)) { throw "Install Python 3.12, then update `$python to its path." }
 & $python -m venv .venv
 & .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Set a session secret and bootstrap the first administrator. The administrator password must contain at least 20 characters:
+### 2. Start Ollama (optional AI suggestions)
+
+Start the Ollama app. In another PowerShell window, check that the model is installed:
 
 ```powershell
-$env:FOODBRIDGE_SECRET_KEY = [guid]::NewGuid().ToString() + [guid]::NewGuid().ToString()
-$env:FOODBRIDGE_ADMIN_EMAIL = "admin@example.org"
-$env:FOODBRIDGE_ADMIN_PASSWORD = "replace-with-a-unique-20-character-password"
+ollama list
 ```
 
-### Optional demo accounts
-
-For local demonstrations only, set these variables before starting the server. The seeded administrator is available even if you omit the administrator bootstrap variables above:
-
-```powershell
-$env:FOODBRIDGE_SEED_DEMO = "1"
-$env:FOODBRIDGE_DEMO_PASSWORD = "FoodBridge-Demo-2026!"
-```
-
-The demo password is shared by the sample donor, verified NGO, pending NGO, and sample administrator:
-
-| Account | Email |
-|---|---|
-| Donor | `marcus@grandheritagehotel.com` |
-| Verified NGO | `elena@hopeharborcommunity.org` |
-| Pending NGO | `david@feedthelight.org` |
-| Demo administrator | `admin@foodbridge.org` |
-
-Seed data is inserted only into an empty database. `FOODBRIDGE_DEMO_PASSWORD` can be changed before initial seeding. The demo-reset action is disabled unless `FOODBRIDGE_SEED_DEMO=1`; do not use demo credentials in a deployed environment.
-
-### Start the server
-
-```powershell
-& .\.venv\Scripts\python.exe -m backend.app
-```
-
-Open `http://127.0.0.1:5000`. The SQLite database is created under Flask's `instance` directory. The server binds to localhost by default.
-
-### Ollama food suggestions
-
-Install and start Ollama locally, then pull the requested model:
+If `gemma4:e2b` is not listed, install it with:
 
 ```powershell
 ollama pull gemma4:e2b
 ```
 
-FoodBridge calls `http://127.0.0.1:11434` using model tag `gemma4:e2b` by default. Configure `OLLAMA_URL`, `OLLAMA_MODEL`, or `OLLAMA_TIMEOUT` if needed. If Ollama or the model is unavailable, the donor form reports an error and remains usable without AI. Suggestions are donor-reviewed and never certify food as safe.
+The backend connects to Ollama at `http://127.0.0.1:11434` by default. Keep Ollama running to use AI suggestions; the rest of the app works without it.
 
-### Tests
+### 3. Start FoodBridge
+
+In PowerShell, from the project folder:
+
+```powershell
+$env:FOODBRIDGE_SECRET_KEY = [guid]::NewGuid().ToString() + [guid]::NewGuid().ToString()
+$env:FOODBRIDGE_SEED_DEMO = "1"
+$env:FOODBRIDGE_DEMO_PASSWORD = "FoodBridge-Demo-2026!"
+& .\.venv\Scripts\python.exe -m backend.app
+```
+
+Keep this window open and visit **http://127.0.0.1:5000**. If you restart the server in a new PowerShell window, set the environment variables again before running it.
+
+### Demo accounts
+
+All demo accounts use the password **`FoodBridge-Demo-2026!`**:
+
+| Role | Email |
+|---|---|
+| Donor | `marcus@grandheritagehotel.com` |
+| Verified NGO | `elena@hopeharborcommunity.org` |
+| Pending NGO | `david@feedthelight.org` |
+| Administrator | `admin@foodbridge.org` |
+
+Demo accounts are created only when `FOODBRIDGE_SEED_DEMO=1` and the database has no users. Do not use demo credentials outside local development.
+
+## Run tests
 
 ```powershell
 & .\.venv\Scripts\python.exe -m unittest backend.test_app
 ```
 
-The test suite uses a temporary SQLite database and does not require Ollama.
+Tests use a temporary SQLite database and do not require Ollama.
 
----
+## Backend configuration
 
-## 🛡️ Food Safety & Responsible Donation Architecture
-
-FoodBridge implements strict safety safeguards:
-1. **Never Automatically Certifying Food Safe**: Software coordinates logistics; human teams certify physical condition.
-2. **Thermal Storage Categorization**:
-   - `Heated Warmer (>60°C)`
-   - `Refrigerated Chiller (2°C - 4°C)`
-   - `Ambient / Dry Storage`
-   - `Frozen (-18°C)`
-3. **Mandatory Allergen Disclosures**: Gluten, Dairy, Eggs, Tree Nuts, Soy, Fish/Shellfish, Sesame.
-4. **Donor Privacy Protection**: Exact loading dock numbers and phone numbers are hidden from the public browse feed and only disclosed to the verified NGO upon donation acceptance.
-5. **Good Samaritan Compliance**: Aligns with legal statutes that protect honest food businesses donating unserved food in good faith.
-
-## 🔌 Flask API
-
-The browser uses same-origin JSON requests through `js/store.js`. Mutating requests require a session CSRF token. Flask enforces authentication, roles, NGO verification, collection capacity, request state transitions, and private pickup-instruction access.
-
-| HTTP method | Route | Access |
+| Variable | Default | Purpose |
 |---|---|---|
-| `GET` | `/api/health`, `/api/metrics` | Public |
-| `GET` | `/api/auth/csrf`, `/api/auth/me` | Session |
-| `POST` | `/api/auth/login`, `/api/auth/register`, `/api/auth/logout` | Public/session |
-| `GET` | `/api/donations`, `/api/donations/<id>` | Public; private pickup details are filtered |
-| `POST` | `/api/donations` | Donor |
-| `PUT`, `DELETE` | `/api/donations/<id>` | Listing owner or admin |
-| `GET` | `/api/requests` | Authenticated donor, NGO, or admin; results are scoped |
-| `POST` | `/api/requests` | Verified NGO |
-| `PATCH` | `/api/requests/<id>/status` | Donor, assigned NGO, or admin according to transition |
-| `GET`, `PUT` | `/api/capacity` | NGO |
-| `GET` | `/api/users`, `/api/users/<id>`, `/api/activities` | Admin |
-| `PUT` | `/api/users/<id>` | Own profile or admin |
-| `POST` | `/api/admin/verify-ngo/<id>`, `/api/admin/reset-demo` | Admin; demo reset requires demo mode |
-| `POST` | `/api/ai/food-suggestion` | Donor; uses local Ollama |
+| `FOODBRIDGE_SECRET_KEY` | Required | Signs session cookies. Use a unique random value. |
+| `FOODBRIDGE_DATABASE` | `instance/foodbridge.sqlite3` | SQLite database location. |
+| `FOODBRIDGE_SEED_DEMO` | Disabled | Set to `1` to seed local sample accounts and listings. |
+| `FOODBRIDGE_DEMO_PASSWORD` | `FoodBridge-Demo-2026!` | Password assigned when demo accounts are first created. |
+| `FOODBRIDGE_ADMIN_EMAIL` | Unset | Email for creating a non-demo administrator account. |
+| `FOODBRIDGE_ADMIN_PASSWORD` | Unset | Initial administrator password; at least 20 characters. |
+| `OLLAMA_URL` | `http://127.0.0.1:11434` | Local Ollama server URL. |
+| `OLLAMA_MODEL` | `gemma4:e2b` | Ollama model tag used for suggestions. |
+| `OLLAMA_TIMEOUT` | `90` seconds | AI request timeout. |
 
-## ⚠️ Scope and deployment notes
+## API overview
 
-- Passwords are hashed; authentication uses server sessions, HttpOnly cookies, and CSRF checks. Set a long, unique `FOODBRIDGE_SECRET_KEY`; enable `FOODBRIDGE_COOKIE_SECURE=1` behind HTTPS.
-- NGO accounts start pending and require administrator approval before requesting food. Exact pickup instructions are withheld until an approved request.
-- QR patterns remain visual demo tokens; they do not cryptographically verify collection. Volunteer sign-up, password recovery, email verification, and image uploads are not backed by these APIs.
-- AI output is a donor-reviewed suggestion only. It must not be used to certify food safety, determine allergens, or replace donor disclosures and in-person checks.
-- Impact figures are estimates: meals use an assumption of 0.45 kg per meal, and CO₂ estimates are indicative rather than independently measured.
+The browser and API share the Flask origin. Mutating API requests require a session CSRF token.
 
----
+| Area | Routes |
+|---|---|
+| Authentication | `/api/auth/login`, `/api/auth/register`, `/api/auth/logout`, `/api/auth/me` |
+| Donations | `/api/donations`, `/api/donations/<id>` |
+| Collection requests | `/api/requests`, `/api/requests/<id>/status` |
+| NGO capacity | `/api/capacity` |
+| Admin | `/api/users`, `/api/admin/verify-ngo/<id>`, `/api/admin/reset-demo` |
+| Metrics and AI | `/api/metrics`, `/api/ai/food-suggestion` |
 
-## 🌍 Sustainability & Social Impact
+## Safety and deployment notes
 
-- **UN SDG 2 (Zero Hunger)**: Channeling surplus nutrition to shelters, youth programs, and soup kitchens.
-- **UN SDG 12 (Responsible Consumption & Production)**: Cutting commercial food waste and greenhouse methane emissions.
+- Passwords are hashed; authentication uses server sessions, HttpOnly cookies, and CSRF checks. Enable `FOODBRIDGE_COOKIE_SECURE=1` when serving over HTTPS.
+- NGO accounts must be approved before requesting food. Exact pickup instructions are restricted and released only after donor approval.
+- AI output is a suggestion for the donor to review. It does not determine allergens or certify that food is safe.
+- QR patterns are visual demos, not secure handover verification. Volunteer registration, email verification, password recovery, and image uploads are not backed by the current API.
+- Impact values are estimates, not independently measured results.
 
----
+## Project layout
 
-## 📄 License
+```text
+backend/app.py       Flask API, SQLite storage, and Ollama integration
+backend/test_app.py  Backend API tests
+js/                  Frontend controllers and API client
+css/                 Styles and themes
+assets/              Images and branding
+requirements.txt     Python dependencies
+```
 
-This project is licensed under the terms of the [MIT License](LICENSE).
-Created with pride for the college hackathon.
-#   h e l p i n g _ h a n d  
- 
+## License
+
+This project is licensed under the [MIT License](LICENSE).
