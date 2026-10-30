@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodBridge – Rescue Food. Reduce Waste. Share Hope.</title>
+  <meta name="description" content="FoodBridge connects surplus food from restaurants, hotels, hostels, and supermarkets with verified NGOs and community organisations." />
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+
+  <!-- Notification Drawer Styles -->
+  <style>
+    .notif-bell-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+    .notif-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 18px;
+      height: 18px;
+      background: #EF4444;
+      color: #fff;
+      border-radius: 99px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid var(--color-bg);
+      pointer-events: none;
+    }
+    .notif-drawer {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 380px;
+      max-width: 95vw;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all var(--transition-normal);
+      overflow: hidden;
+    }
+    .notif-drawer.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    /* Language toggle pill */
+    .lang-toggle-btn {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .lang-toggle-btn:hover {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+    /* Two-column grid helper */
+    @media (max-width: 768px) {
+      .grid-2-col { grid-template-columns: 1fr !important; }
+      .details-layout-grid { grid-template-columns: 1fr !important; }
+    }
+    /* Volunteer section */
+    .volunteer-banner {
+      background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      color: #FFFFFF;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 640px) {
+      .volunteer-banner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active" data-i18n="nav_home">Home</a>
+        <a href="browse.html" class="nav-link" data-i18n="nav_browse">Browse Surplus</a>
+        <a href="how-it-works.html" class="nav-link" data-i18n="nav_how">How It Works</a>
+        <a href="about.html" class="nav-link" data-i18n="nav_about">About FoodBridge</a>
+        <a href="volunteers.html" class="nav-link">Volunteers</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav_contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Toggle -->
+        <button class="lang-toggle-btn" title="Switch language">हिन्दी में देखें</button>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+
+        <!-- Notification Bell -->
+        <div class="notif-bell-wrapper" id="notif-bell-wrapper">
+          <button class="theme-toggle-btn" aria-label="Notifications" title="Notifications" style="position:relative;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-badge" style="display:none;">3</span>
+          </button>
+          <div class="notif-drawer" id="notif-drawer-home"></div>
+        </div>
+
+        <!-- User Profile Dropdown -->
+        <div class="user-menu-wrapper">
+          <div class="user-menu-trigger">
+            <div class="user-avatar">FB</div>
+            <div class="user-info-text">
+              <div class="user-name">My Account</div>
+              <div class="user-role-badge">Guest</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="user-dropdown-menu">
+            <div class="dropdown-header">
+              <strong style="display:block; font-size:0.88rem;">FoodBridge Platform</strong>
+              <span style="font-size:0.75rem; color:var(--color-text-muted);">Quick Dashboard Access</span>
+            </div>
+            <a href="donor-dashboard.html" class="dropdown-item"><span>👨‍🍳</span> Donor Dashboard</a>
+            <a href="ngo-dashboard.html" class="dropdown-item"><span>🤝</span> NGO Dashboard</a>
+            <a href="admin-dashboard.html" class="dropdown-item"><span>🛡️</span> Admin Dashboard</a>
+            <a href="profile.html" class="dropdown-item"><span>👤</span> My Profile</a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item" style="color:#DC2626;"><span>🚪</span> Sign Out</a>
+          </div>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button class="mobile-nav-toggle" aria-label="Open mobile menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <div class="mobile-drawer-header">
+        <a href="index.html" class="brand-logo">
+          <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+        </a>
+        <button class="mobile-drawer-close btn-icon" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html" class="mobile-nav-link active" data-i18n="nav_home">Home</a>
+        <a href="browse.html" class="mobile-nav-link" data-i18n="nav_browse">Browse Surplus Food</a>
+        <a href="how-it-works.html" class="mobile-nav-link" data-i18n="nav_how">How It Works</a>
+        <a href="about.html" class="mobile-nav-link" data-i18n="nav_about">About FoodBridge</a>
+        <a href="volunteers.html" class="mobile-nav-link">Volunteers</a>
+        <a href="contact.html" class="mobile-nav-link" data-i18n="nav_contact">Contact Us</a>
+        <hr style="border:none; border-top:1px solid var(--color-border); margin:0.5rem 0;" />
+        <a href="donor-dashboard.html" class="mobile-nav-link">Donor Portal</a>
+        <a href="ngo-dashboard.html" class="mobile-nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="mobile-nav-link">Admin Portal</a>
+        <a href="profile.html" class="mobile-nav-link">Account Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/></svg>
+            <span data-i18n="hero_tag">Rescue Food · Reduce Waste · Share Hope</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span data-i18n="hero_title_1">Good Food Deserves a</span>
+            <br/><span class="text-gradient" data-i18n="hero_title_2">Second Chance.</span>
+          </h1>
+
+          <p class="hero-description" data-i18n="hero_desc">
+            Restaurants, hotels, supermarkets, and event organisers often have wholesome surplus food that goes to waste. FoodBridge bridges the gap with verified NGOs and shelters to coordinate transparent, responsible food rescues.
+          </p>
+
+          <!-- FSSAI / Regulatory Compliance Line -->
+          <div style="display:inline-flex; align-items:center; gap:0.45rem; background:var(--color-primary-50); border:1px solid var(--color-primary-100); padding:0.4rem 0.85rem; border-radius:var(--radius-full); font-size:0.78rem; font-weight:700; color:var(--color-primary); margin-bottom:1.25rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Aligned with FSSAI Surplus Food Donation Guidelines 2019
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" id="hero-donate-btn">
+              <span>👨‍🍳</span> <span data-i18n="btn_donate">Donate Surplus Food</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" id="hero-find-btn">
+              <span>🔍</span> <span data-i18n="btn_find">Find Food Donations</span>
+            </button>
+          </div>
+
+          <div class="hero-trust-bar">
+            <div class="trust-avatars">
+              <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=100&q=80" alt="Donor Chef" class="trust-avatar" />
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80" alt="NGO Coordinator" class="trust-avatar" />
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Volunteer" class="trust-avatar" />
+            </div>
+            <div class="trust-text">
+              Trusted by <strong>40+ verified community kitchens</strong> & <strong>85+ hospitality donors</strong>.
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=1000&q=80"
+                 alt="Fresh nutritious culinary surplus" class="hero-main-img" />
+          </div>
+          <div class="hero-float-top">
+            <span style="font-size:1.2rem;">⏱️</span>
+            <div>
+              <strong>Surplus Rescue In Progress</strong>
+              <div style="font-size:0.75rem; color:#A3B5AA;">Hope Harbor Shelter en route</div>
+            </div>
+          </div>
+          <div class="hero-float-card">
+            <div style="width:42px; height:42px; border-radius:50%; background:#DCFCE7; color:#166534; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:700; font-size:0.92rem; color:var(--color-text);">HACCP Certified Handover</div>
+              <div style="font-size:0.78rem; color:var(--color-text-muted);">Allergen Declared · Thermal Storage Verified</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Statistics Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" id="stat-meals">1,240+</div>
+            <div class="stat-label" data-i18n="stat_meals">Meals Provided</div>
+            <div class="stat-sub">Estimated · ~450g per serving assumption</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="stat-donations">48</div>
+            <div class="stat-label" data-i18n="stat_donations">Surplus Batches</div>
+            <div class="stat-sub">From hotels, bakeries & events</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="stat-weight">560 kg</div>
+            <div class="stat-label" data-i18n="stat_weight">Surplus Rescued</div>
+            <div class="stat-sub">Diverted from landfills</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" id="stat-co2">1,400 kg</div>
+            <div class="stat-label" data-i18n="stat_co2">CO₂e Prevented</div>
+            <div class="stat-sub">2.5kg CO₂e / kg food estimate</div>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:0.85rem; font-size:0.75rem; color:var(--color-text-light);">
+          * All figures are cumulative simulation estimates using industry-standard assumptions. Not independently audited.
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Calculator Widget -->
+    <section style="padding:3rem 0; background:var(--color-bg);">
+      <div class="container">
+        <div id="impact-calculator-panel">
+          <!-- Rendered by impact-calculator.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- The Problem & Solution -->
+    <section style="padding:4.5rem 0; background:var(--color-surface); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">The Challenge & The Solution</span>
+          <h2 class="section-title">Bridging the Gap Between Surplus and Scarcity</h2>
+          <p class="lead">Every day, tons of perfectly edible food are discarded while community organizations struggle to meet growing nutrition demands.</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem;" class="grid-2-col">
+          <div class="card" style="border-left:5px solid #EF4444;">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+              <span style="font-size:1.75rem;">🗑️</span>
+              <h3 style="font-size:1.35rem;">The Surplus Food Problem</h3>
+            </div>
+            <ul style="display:flex; flex-direction:column; gap:0.85rem; color:var(--color-text-muted); font-size:0.95rem;">
+              <li><strong>Unpredictable Event Surplus:</strong> Banquets, hotels, and college hostels routinely prepare for maximum capacity, resulting in unserved batches.</li>
+              <li><strong>Short Shelf-Life Vulnerability:</strong> Bakeries and supermarkets discard unsold culinary goods that have hours of prime freshness remaining.</li>
+              <li><strong>Lack of Real-Time Coordination:</strong> Kitchens lack a verified channel to quickly notify reliable grassroots charities before food deteriorates.</li>
+              <li><strong>FSSAI Compliance Concern:</strong> Many donors avoid donation fearing regulatory confusion around the Surplus Food Donation Regulations 2019.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-left:5px solid var(--color-accent);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+              <span style="font-size:1.75rem;">🌱</span>
+              <h3 style="font-size:1.35rem;">The FoodBridge Answer</h3>
+            </div>
+            <ul style="display:flex; flex-direction:column; gap:0.85rem; color:var(--color-text-muted); font-size:0.95rem;">
+              <li><strong>Instant Surplus Publication:</strong> Donors post quantity, preparation time, storage requirements, and allergen disclosures in seconds.</li>
+              <li><strong>Vetted NGO Coordination:</strong> Only accredited, verified non-profits with safe transport can claim and collect donations.</li>
+              <li><strong>QR Collection Verification:</strong> Each accepted handover generates a unique token for transparent pickup confirmation.</li>
+              <li><strong>Zero Ordering or Delivery Fee:</strong> We are NOT a commercial food ordering app — our mission is strictly community waste reduction.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How FoodBridge Works -->
+    <section style="padding:5rem 0; background:var(--color-bg);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple & Transparent</span>
+          <h2 class="section-title">How FoodBridge Operates</h2>
+          <p class="lead">A reliable, four-step rescue workflow designed around local food safety regulations including FSSAI guidelines.</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1.75rem;">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Donor Publishes Surplus</h3>
+            <p>Restaurant, banquet or supermarket enters food details, prep time, temperature conditions, allergens, and collection deadline.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title">Verified NGO Requests</h3>
+            <p>Accredited community shelters review local listings, confirm thermal transport capacity, and submit a collection request.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Donor Accepts & Unlocks</h3>
+            <p>Donor approves the request. Private loading dock address is released securely only to the assigned organisation.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h3 class="step-title">QR Verification & Impact Log</h3>
+            <p>A unique collection token is generated. Food is safely collected, and weight is credited to impact metrics automatically.</p>
+          </div>
+        </div>
+
+        <div style="text-align:center; margin-top:2.5rem;">
+          <a href="how-it-works.html" class="btn btn-outline">Read Full Safety Protocols & FAQs →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Live Surplus Donations -->
+    <section style="padding:4.5rem 0; background:var(--color-surface); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border);">
+      <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <span class="section-tag">Real-Time Community Feed</span>
+            <h2 class="section-title" style="margin-bottom:0.3rem;">Current Surplus Food Available</h2>
+            <p style="margin:0;">Explore live surplus food batches awaiting collection across the metro area.</p>
+          </div>
+          <a href="browse.html" class="btn btn-secondary">View All Surplus Listings →</a>
+        </div>
+        <div class="donations-grid" id="featured-donations-grid">
+          <!-- Populated dynamically by main.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Volunteer Call to Action Section -->
+    <section style="padding:4rem 0;">
+      <div class="container">
+        <div class="volunteer-banner">
+          <div>
+            <span style="background:rgba(255,255,255,0.2); color:#FFFFFF; font-size:0.75rem; font-weight:700; padding:0.25rem 0.65rem; border-radius:99px; display:inline-block; margin-bottom:0.75rem;">
+              Volunteer Coordination
+            </span>
+            <h2 style="color:#FFFFFF; font-size:1.8rem; margin-bottom:0.75rem;">Can You Drive? Help Rescue Food!</h2>
+            <p style="color:#BFDBFE; margin:0; font-size:0.95rem; max-width:520px;">
+              Verified community drivers with insulated vehicles can register as pickup volunteers. Coordinate directly with donors and NGOs through FoodBridge.
+            </p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <a href="volunteers.html" class="btn btn-lg" style="background:#FFFFFF; color:#1E40AF; font-weight:700;">
+              🚚 Join as Volunteer Driver
+            </a>
+            <a href="how-it-works.html" class="btn btn-lg" style="background:rgba(255,255,255,0.15); color:#FFFFFF; border:1px solid rgba(255,255,255,0.3);">
+              Learn More →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food Safety Commitment -->
+    <section style="padding:1.5rem 0; background:var(--color-surface); border-top:1px solid var(--color-border); border-bottom:1px solid var(--color-border);">
+      <div class="container">
+        <div class="food-safety-banner" style="margin-bottom:0;">
+          <div class="food-safety-banner-icon" style="color:#B45309;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+          </div>
+          <div>
+            <strong data-i18n="safety_notice">Food Safety & Responsible Donation Notice:</strong>
+            <p style="margin:0.25rem 0 0; font-size:0.88rem; color:inherit;">
+              FoodBridge coordinates surplus food discovery but does not certify microbiological safety or temperature history. Donors must comply with FSSAI Surplus Food Donation Regulations 2019. Collecting NGOs must perform sensory and temperature checks prior to serving. FoodBridge is NOT responsible for food quality after handover.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section style="padding:5rem 0;">
+      <div class="container">
+        <div class="cta-banner">
+          <h2 class="cta-title">Ready to Make an Impact?</h2>
+          <p class="cta-subtitle">Whether you operate a commercial kitchen with daily surplus or manage a community food program, FoodBridge provides the tools you need to stop food waste.</p>
+          <div class="cta-actions">
+            <a href="register.html?role=donor" class="btn btn-accent btn-lg">Register as Food Donor</a>
+            <a href="register.html?role=ngo" class="btn btn-secondary btn-lg" style="background:#FFFFFF; color:var(--color-primary-900);">Register Your NGO / Shelter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-title">
+            <div class="brand-icon-wrapper" style="width:32px; height:32px;">
+              <svg width="18" height="18" viewBox="0 0 40 40" fill="none">
+                <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+                <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <span>FoodBridge</span>
+          </div>
+          <p class="footer-description">Rescue Food. Reduce Waste. Share Hope. Aligned with FSSAI Surplus Food Donation Regulations 2019 and UN SDG 2 (Zero Hunger) & SDG 12 (Responsible Consumption).</p>
+          <div class="footer-badge">🌱 SDG 2 · SDG 12 · FSSAI 2019 Guidance</div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Platform</h4>
+          <div class="footer-links">
+            <a href="browse.html" class="footer-link">Browse Surplus Food</a>
+            <a href="how-it-works.html" class="footer-link">How It Works</a>
+            <a href="donor-dashboard.html" class="footer-link">Donor Portal</a>
+            <a href="ngo-dashboard.html" class="footer-link">NGO Portal</a>
+            <a href="admin-dashboard.html" class="footer-link">Admin Portal</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Community</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About FoodBridge</a>
+            <a href="volunteers.html" class="footer-link">Volunteer with Us</a>
+            <a href="contact.html" class="footer-link">Contact & Hotline</a>
+            <a href="profile.html" class="footer-link">Account Profile</a>
+            <a href="login.html" class="footer-link">Sign In</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Food Safety & Compliance</h4>
+          <p style="font-size:0.85rem; color:#A3B5AA; line-height:1.6;">FoodBridge is a non-commercial surplus rescue coordination interface. All donations must comply with FSSAI Surplus Food guidelines. Receiving NGOs are responsible for final food safety verification.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2024 FoodBridge Open-Source Project. Developed for College Hackathon.</div>
+        <div style="display:flex; gap:1.25rem;">
+          <a href="about.html" class="footer-link">Terms & Safety Waiver</a>
+          <a href="contact.html" class="footer-link">Support</a>
+          <a href="browse.html" class="footer-link">Directory</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/impact-calculator.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Wire up notification bell
+    document.addEventListener("DOMContentLoaded", async () => {
+      const user = await auth.getCurrentUser();
+      if (user) {
+        notificationSystem.initBell(user.role);
+        // Attach drawer to bell
+        const bellWrapper = document.getElementById('notif-bell-wrapper');
+        if (bellWrapper) {
+          bellWrapper.setAttribute('data-drawer', 'notif-drawer-home');
+        }
+      }
+      // Language manager
+      languageManager.init();
+      // Impact Calculator
+      await impactCalculator.renderImpactPanel('impact-calculator-panel');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <defs>
+    <linearGradient id="foodBridgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A5336" />
+      <stop offset="100%" stop-color="#22C55E" />
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="10" fill="url(#foodBridgeGrad)" />
+  <!-- Bridge Arc -->
+  <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" />
+  <!-- Rescue Leaf Sprout in center -->
+  <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16" />
+  <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF" />
+  <!-- Vertical bridge supports -->
+  <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+  <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+  <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+</svg>
+

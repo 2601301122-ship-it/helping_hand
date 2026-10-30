@@ -1,0 +1,20 @@
+# System Files
+.DS_Store
+Thumbs.db
+
+# Editor & IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+instance/
+.venv/
+.env
+venv/
+env/

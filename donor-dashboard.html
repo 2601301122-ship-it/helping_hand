@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donor Dashboard – FoodBridge</title>
+  <meta name="description" content="Manage surplus food donations, review community collection requests, and track food waste reduction impact." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse Surplus</a>
+        <a href="donor-dashboard.html" class="nav-link active">Donor Dashboard</a>
+        <a href="ngo-dashboard.html" class="nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="nav-link">Admin Portal</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <div class="user-menu-wrapper">
+          <div class="user-menu-trigger">
+            <div class="user-avatar">MV</div>
+            <div class="user-info-text">
+              <div class="user-name" id="nav-user-name">Chef Marcus Vance</div>
+              <div class="user-role-badge">FOOD DONOR</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="user-dropdown-menu">
+            <a href="profile.html" class="dropdown-item"><span>👤</span> My Profile</a>
+            <a href="browse.html" class="dropdown-item"><span>🔍</span> View Public Directory</a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item" style="color:#DC2626;"><span>🚪</span> Sign Out</a>
+          </div>
+        </div>
+        <button class="mobile-nav-toggle btn-icon" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <div class="mobile-drawer-header">
+        <a href="index.html" class="brand-logo">
+          <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+        </a>
+        <button class="mobile-drawer-close btn-icon">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="browse.html" class="mobile-nav-link">Browse Surplus Food</a>
+        <a href="donor-dashboard.html" class="mobile-nav-link active">Donor Dashboard</a>
+        <a href="ngo-dashboard.html" class="mobile-nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="mobile-nav-link">Admin Portal</a>
+        <a href="profile.html" class="mobile-nav-link">Account Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-profile-avatar">👨‍🍳</div>
+        <div class="sidebar-profile-info">
+          <div class="sidebar-profile-name" id="donor-org-name">Grand Heritage Palace</div>
+          <div class="sidebar-profile-sub" id="donor-org-sub">Hotel & Banquet • Metro Central</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="sidebar-nav-item active donor-nav-tab" data-target="tab-active-listings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Active Listings
+        </a>
+        <a href="#" class="sidebar-nav-item donor-nav-tab" data-target="tab-inbound-requests">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Collection Requests
+        </a>
+        <a href="#" class="sidebar-nav-item donor-nav-tab" data-target="tab-donation-history">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Rescue Archive
+        </a>
+        <a href="profile.html" class="sidebar-nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Kitchen Profile
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-primary btn-block btn-sm open-new-donation-btn" onclick="ui.openModal('new-donation-modal')">
+          + New Surplus Listing
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-heading">Donor Operations & Waste Rescue</h1>
+          <p class="dashboard-subheading">
+            Publish surplus batches, review NGO collection requests, and certify handover.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-primary open-new-donation-btn" onclick="ui.openModal('new-donation-modal')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Publish New Surplus Food
+          </button>
+        </div>
+      </div>
+
+      <!-- Food Safety Reminder -->
+      <div class="food-safety-banner">
+        <div class="food-safety-banner-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <strong>Food Safety Responsibility Reminder:</strong>
+          <p style="margin: 0.2rem 0 0; font-size: 0.85rem; color: inherit;">
+            All posted items must have been prepared in an inspected food establishment, kept at required temperatures, and clearly disclose major allergens. Private dock addresses remain hidden until you accept a verified NGO request.
+          </p>
+        </div>
+      </div>
+
+      <!-- Metric Cards Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Active Listings</span>
+            <span class="metric-value" id="metric-active-count">0</span>
+            <span class="metric-trend trend-up">Available for rescue</span>
+          </div>
+          <div class="metric-icon-box">📦</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Pending Requests</span>
+            <span class="metric-value" id="metric-pending-requests" style="color:var(--color-accent-gold);">0</span>
+            <span class="metric-trend">Awaiting your approval</span>
+          </div>
+          <div class="metric-icon-box">⏳</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Rescued Food</span>
+            <span class="metric-value" id="metric-rescued-kg">0 kg</span>
+            <span class="metric-trend trend-up">Diverted from landfill</span>
+          </div>
+          <div class="metric-icon-box">🌱</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Meals Provided</span>
+            <span class="metric-value" id="metric-meals-provided">0</span>
+            <span class="metric-trend trend-up">Shared with community</span>
+          </div>
+          <div class="metric-icon-box">🍲</div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Active Listings -->
+      <div class="donor-tab-pane" id="tab-active-listings">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 class="table-title">Active Surplus Food Batches</h3>
+            <span style="font-size:0.85rem; color:var(--color-text-muted);">Real-time listings visible to community organisations</span>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Food Item</th>
+                  <th>Quantity</th>
+                  <th>Storage</th>
+                  <th>Collection Deadline</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="active-donations-tbody">
+                <!-- Injected dynamically by js/donor.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Inbound Collection Requests -->
+      <div class="donor-tab-pane" id="tab-inbound-requests" style="display: none;">
+        <div class="table-card" style="padding: 1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+            <div>
+              <h3 class="table-title">Community Collection Requests</h3>
+              <p style="font-size:0.88rem; color:var(--color-text-muted); margin:0;">
+                Review non-profit transport capacity and approve collection times.
+              </p>
+            </div>
+          </div>
+          <div id="inbound-requests-container">
+            <!-- Injected dynamically by js/donor.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Completed Donation History -->
+      <div class="donor-tab-pane" id="tab-donation-history" style="display: none;">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 class="table-title">Food Rescue History & Landfill Diversion Archive</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Food Batch</th>
+                  <th>Rescued Volume</th>
+                  <th>Recipient Organisation</th>
+                  <th>Date Rescued</th>
+                  <th>Audit Status</th>
+                </tr>
+              </thead>
+              <tbody id="completed-donations-tbody">
+                <!-- Injected dynamically by js/donor.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- New Surplus Food Modal -->
+  <div class="modal-overlay" id="new-donation-modal">
+    <div class="modal-card" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="donation-modal-title">Publish New Surplus Food Batch</h3>
+        <button class="modal-close-btn btn-icon">&times;</button>
+      </div>
+      <form id="new-donation-form">
+        <div class="modal-body">
+          
+          <div class="form-group">
+            <label class="form-label" for="donation-title">Food Name / Description Title <span class="required">*</span></label>
+            <input type="text" id="donation-title" class="form-control" placeholder="e.g. Banquet Gourmet Buffet: Roasted Chicken & Rice Pilaf" required />
+            <button type="button" class="btn btn-outline btn-sm" id="food-ai-suggest-btn" style="margin-top:0.6rem;">
+              Suggest Category & Description
+            </button>
+            <div class="form-hint" id="food-ai-suggest-notice" aria-live="polite">
+              AI suggestions are optional. Review all details; AI does not assess food safety.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="donation-desc">Culinary Details & Packaging State <span class="required">*</span></label>
+            <textarea id="donation-desc" class="form-control" placeholder="Describe how food is packaged (e.g. Covered aluminum trays, individually portioned), unserved status, and condition." required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="donation-category">Food Category <span class="required">*</span></label>
+              <select id="donation-category" class="form-control" required>
+                <option value="Cooked Meals">🍲 Cooked Meals (Hot / Prepared)</option>
+                <option value="Bakery">🥖 Bakery & Pastries</option>
+                <option value="Fresh Produce">🥦 Fresh Produce & Vegetables</option>
+                <option value="Dairy & Packaged">🥛 Dairy & Sealed Packaged Staples</option>
+                <option value="Beverages">🧃 Unopened Beverages</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donation-storage">Thermal Storage Requirement <span class="required">*</span></label>
+              <select id="donation-storage" class="form-control" required>
+                <option value="Heated Warmer (>60°C)">Heated Warmer (>60°C)</option>
+                <option value="Refrigerated (2°C - 4°C)">Refrigerated Chiller (2°C - 4°C)</option>
+                <option value="Ambient / Dry Storage">Ambient / Room Temp Dry Storage</option>
+                <option value="Frozen (-18°C)">Frozen Freezer (-18°C)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="donation-quantity">Available Quantity <span class="required">*</span></label>
+              <input type="number" id="donation-quantity" class="form-control" min="1" placeholder="45" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donation-unit">Portion / Package Unit <span class="required">*</span></label>
+              <input type="text" id="donation-unit" class="form-control" placeholder="e.g. Servings / Trays / Loaves / Crates" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donation-weight">Approx. Total Weight (kg)</label>
+              <input type="number" id="donation-weight" class="form-control" placeholder="25" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="donation-prep-time">Preparation Date & Time <span class="required">*</span></label>
+              <input type="datetime-local" id="donation-prep-time" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donation-deadline">Strict Pickup Deadline <span class="required">*</span></label>
+              <input type="datetime-local" id="donation-deadline" class="form-control" required />
+            </div>
+          </div>
+
+          <!-- Allergen Selector -->
+          <div class="form-group">
+            <label class="form-label">Declared Allergens (Select all present)</label>
+            <div class="allergen-grid">
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Gluten">🌾 Gluten / Wheat</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Dairy">🥛 Dairy / Milk</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Eggs">🥚 Eggs</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Nuts">🥜 Tree Nuts / Peanuts</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Soy">🌱 Soy</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Shellfish">🦐 Fish / Shellfish</div>
+              <div class="allergen-chip modal-allergen-chip" data-allergen="Sesame">🌿 Sesame</div>
+            </div>
+          </div>
+
+          <!-- Photo Selection -->
+          <div class="form-group">
+            <label class="form-label">Food Photo (Choose a high-res sample or enter image URL)</label>
+            <div style="display:flex; gap:0.6rem; margin-bottom:0.6rem; overflow-x:auto; padding-bottom:0.25rem;">
+              <img src="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=200&q=80" alt="Preset 1" class="preset-photo-thumb" data-url="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=800&q=80" style="width:65px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer; border:2px solid var(--color-primary);" />
+              <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=200&q=80" alt="Preset 2" class="preset-photo-thumb" data-url="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80" style="width:65px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer; border:2px solid transparent;" />
+              <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=200&q=80" alt="Preset 3" class="preset-photo-thumb" data-url="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=800&q=80" style="width:65px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer; border:2px solid transparent;" />
+              <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=200&q=80" alt="Preset 4" class="preset-photo-thumb" data-url="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" style="width:65px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer; border:2px solid transparent;" />
+              <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=200&q=80" alt="Preset 5" class="preset-photo-thumb" data-url="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80" style="width:65px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer; border:2px solid transparent;" />
+            </div>
+            <input type="url" id="donation-img-url" class="form-control" value="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=800&q=80" placeholder="https://..." />
+            <img id="selected-img-preview" src="https://images.unsplash.com/photo-1547496502-affa22d38842?auto=format&fit=crop&w=800&q=80" alt="Selected donation preview" style="display:block; width:100%; max-height:220px; object-fit:cover; border-radius:var(--radius-md); margin-top:0.75rem;" />
+          </div>
+
+          <!-- Pickup Location & Private Instructions -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="donation-location">Public Area (Neighborhood / District) <span class="required">*</span></label>
+              <input type="text" id="donation-location" class="form-control" placeholder="e.g. Metro Central Convention Corridor" required />
+              <div class="form-hint">Displayed publicly on the surplus map/feed.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="donation-instructions">Private Loading Dock & Handover Instructions <span class="required">*</span></label>
+              <input type="text" id="donation-instructions" class="form-control" placeholder="e.g. Service Gate B, Dock 3, notify Chef Marcus" required />
+              <div class="form-hint">🔒 Protected: Disclosed ONLY to verified NGO upon request approval.</div>
+            </div>
+          </div>
+
+          <!-- Safety Certification Checkbox -->
+          <div class="form-check" style="background:var(--color-surface-soft); padding:0.85rem; border-radius:var(--radius-md); margin-top:1rem;">
+            <input type="checkbox" id="donation-safety-confirm" required />
+            <label for="donation-safety-confirm" class="form-check-label" style="font-size:0.84rem;">
+              <strong>Food Safety Certification:</strong> I certify that this surplus food was prepared in a licensed commercial kitchen, held within required temperature ranges, and has not been exposed to contamination or served to customers.
+            </label>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Publish Surplus Food Donation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/donor.js"></script>
+</body>
+</html>

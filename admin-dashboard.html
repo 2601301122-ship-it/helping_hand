@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – FoodBridge Platform Compliance</title>
+  <meta name="description" content="Manage platform operations, verify grassroots organisations, audit food safety listings, and view impact analytics." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse Surplus</a>
+        <a href="donor-dashboard.html" class="nav-link">Donor Portal</a>
+        <a href="ngo-dashboard.html" class="nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="nav-link active">Admin Portal</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <div class="user-menu-wrapper">
+          <div class="user-menu-trigger">
+            <div class="user-avatar" style="background:linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);">AS</div>
+            <div class="user-info-text">
+              <div class="user-name">Alexandria Stone</div>
+              <div class="user-role-badge">PLATFORM ADMIN</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="user-dropdown-menu">
+            <a href="profile.html" class="dropdown-item"><span>👤</span> Admin Profile</a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item" style="color:#DC2626;"><span>🚪</span> Sign Out</a>
+          </div>
+        </div>
+        <button class="mobile-nav-toggle btn-icon" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <div class="mobile-drawer-header">
+        <a href="index.html" class="brand-logo">
+          <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+        </a>
+        <button class="mobile-drawer-close btn-icon">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="browse.html" class="mobile-nav-link">Browse Surplus Food</a>
+        <a href="donor-dashboard.html" class="mobile-nav-link">Donor Portal</a>
+        <a href="ngo-dashboard.html" class="mobile-nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="mobile-nav-link active">Admin Portal</a>
+        <a href="profile.html" class="mobile-nav-link">Account Profile</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-profile">
+        <div class="sidebar-profile-avatar" style="background:linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);">🛡️</div>
+        <div class="sidebar-profile-info">
+          <div class="sidebar-profile-name">FoodBridge Ops</div>
+          <div class="sidebar-profile-sub">Compliance & Trust</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="sidebar-nav-item active admin-nav-tab" data-target="tab-admin-overview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Overview & Charts
+        </a>
+        <a href="#" class="sidebar-nav-item admin-nav-tab" data-target="tab-admin-verification">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+          NGO Verification Queue
+        </a>
+        <a href="#" class="sidebar-nav-item admin-nav-tab" data-target="tab-admin-donations">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+          Surplus Food Audit
+        </a>
+        <a href="#" class="sidebar-nav-item admin-nav-tab" data-target="tab-admin-users">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          User Accounts
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline btn-block btn-sm" id="admin-reset-demo-btn" style="color:#DC2626; border-color:#FCA5A5;">
+          Reset Demo Data
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+      <div class="dashboard-header">
+        <div>
+          <h1 class="dashboard-heading">Platform Administration & Compliance</h1>
+          <p class="dashboard-subheading">
+            Audit surplus listings, verify grassroots non-profits, and monitor regional food diversion.
+          </p>
+        </div>
+        <div style="font-size:0.82rem; padding:0.4rem 0.8rem; background:var(--color-surface); border:1px dashed var(--color-border); border-radius:var(--radius-md); color:var(--color-text-muted);">
+          ⚙️ <strong>Flask API Connected</strong>
+        </div>
+      </div>
+
+      <!-- Admin Functional Notice -->
+      <div class="food-safety-banner" style="background:var(--color-surface-soft); border-color:var(--color-border); color:var(--color-text);">
+        <div class="food-safety-banner-icon" style="color:var(--color-primary);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+        <div style="font-size:0.85rem;">
+          <strong>Admin Capabilities:</strong> Verification approvals, listing moderation, and metrics are managed by protected Flask API endpoints and persisted in SQLite.
+        </div>
+      </div>
+
+      <!-- Metrics Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Total Users</span>
+            <span class="metric-value" id="admin-metric-users">0</span>
+            <span class="metric-trend trend-up">Platform members</span>
+          </div>
+          <div class="metric-icon-box">👥</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Food Donors</span>
+            <span class="metric-value" id="admin-metric-donors">0</span>
+            <span class="metric-trend trend-up">Hospitality & Markets</span>
+          </div>
+          <div class="metric-icon-box">👨‍🍳</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">NGOs & Shelters</span>
+            <span class="metric-value" id="admin-metric-ngos">0</span>
+            <span class="metric-trend trend-up">Grassroots partners</span>
+          </div>
+          <div class="metric-icon-box">🤝</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Pending Verifications</span>
+            <span class="metric-value" id="admin-metric-pending" style="color:var(--color-accent-gold);">0</span>
+            <span class="metric-trend">Needs doc review</span>
+          </div>
+          <div class="metric-icon-box">📋</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Rescued Weight</span>
+            <span class="metric-value" id="admin-metric-weight">0 kg</span>
+            <span class="metric-trend trend-up">Diverted from landfill</span>
+          </div>
+          <div class="metric-icon-box">⚖️</div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Overview & Analytics Charts -->
+      <div class="admin-tab-pane" id="tab-admin-overview">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;" class="grid-2-col">
+          <!-- Chart 1 -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="font-size:1.15rem;">Rescued Volume by Food Category (kg)</h3>
+              <span class="category-pill">Canvas Chart</span>
+            </div>
+            <div style="position:relative; width:100%; height:220px;">
+              <canvas id="chart-categories" style="width:100%; height:220px;"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2 -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="font-size:1.15rem;">Monthly Rescue Growth (kg Diverted)</h3>
+              <span class="category-pill">6-Month Trend</span>
+            </div>
+            <div style="position:relative; width:100%; height:220px;">
+              <canvas id="chart-trend" style="width:100%; height:220px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Platform Activity -->
+        <div class="card">
+          <h3 style="font-size:1.2rem; margin-bottom:1rem;">Recent Platform Activity Audit Feed</h3>
+          <div class="activity-list" id="admin-activity-list">
+            <!-- Injected by js/admin.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: NGO Verification Queue -->
+      <div class="admin-tab-pane" id="tab-admin-verification" style="display: none;">
+        <div class="table-card">
+          <div class="table-header">
+            <div>
+              <h3 class="table-title">Grassroots NGO Verification Queue</h3>
+              <p style="font-size:0.85rem; color:var(--color-text-muted); margin:0;">
+                Review submitted non-profit registration numbers to authorize food collection requests.
+              </p>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Organisation Name</th>
+                  <th>Registration No.</th>
+                  <th>Organisation Type</th>
+                  <th>Operating City</th>
+                  <th>Current State</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="verification-queue-tbody">
+                <!-- Injected by js/admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Surplus Food Audit -->
+      <div class="admin-tab-pane" id="tab-admin-donations" style="display: none;">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 class="table-title">Surplus Food Listings Audit Log</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Food Item & Category</th>
+                  <th>Donor Business</th>
+                  <th>Quantity</th>
+                  <th>Listing Status</th>
+                  <th>Expiry Deadline</th>
+                  <th>Moderation</th>
+                </tr>
+              </thead>
+              <tbody id="admin-donations-tbody">
+                <!-- Injected by js/admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: User Accounts -->
+      <div class="admin-tab-pane" id="tab-admin-users" style="display: none;">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 class="table-title">Registered User Directory</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>User & Email</th>
+                  <th>Role</th>
+                  <th>Affiliated Organization</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-tbody">
+                <!-- Injected by js/admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

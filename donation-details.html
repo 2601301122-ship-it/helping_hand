@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donation Details – FoodBridge</title>
+  <meta name="description" content="View surplus food donation specifications, allergens, storage requirements, and coordinate collection." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link active">Browse Surplus</a>
+        <a href="how-it-works.html" class="nav-link">How It Works</a>
+        <a href="about.html" class="nav-link">About FoodBridge</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <div class="user-menu-wrapper">
+          <div class="user-menu-trigger">
+            <div class="user-avatar">FB</div>
+            <div class="user-info-text">
+              <div class="user-name">My Account</div>
+              <div class="user-role-badge">Guest</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="user-dropdown-menu">
+            <div class="dropdown-header">
+              <strong style="display:block; font-size:0.88rem;">FoodBridge Platform</strong>
+            </div>
+            <a href="donor-dashboard.html" class="dropdown-item"><span>👨‍🍳</span> Donor Dashboard</a>
+            <a href="ngo-dashboard.html" class="dropdown-item"><span>🤝</span> NGO Dashboard</a>
+            <a href="admin-dashboard.html" class="dropdown-item"><span>🛡️</span> Admin Dashboard</a>
+            <a href="profile.html" class="dropdown-item"><span>👤</span> My Profile</a>
+          </div>
+        </div>
+        <button class="mobile-nav-toggle btn-icon" aria-label="Open mobile menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <div class="mobile-drawer-header">
+        <a href="index.html" class="brand-logo">
+          <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+        </a>
+        <button class="mobile-drawer-close btn-icon" aria-label="Close menu">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="browse.html" class="mobile-nav-link">Browse Surplus Food</a>
+        <a href="how-it-works.html" class="mobile-nav-link">How It Works</a>
+        <a href="about.html" class="mobile-nav-link">About FoodBridge</a>
+        <a href="contact.html" class="mobile-nav-link">Contact Us</a>
+        <hr style="border:none; border-top:1px solid var(--color-border); margin:0.5rem 0;" />
+        <a href="donor-dashboard.html" class="mobile-nav-link">Donor Portal</a>
+        <a href="ngo-dashboard.html" class="mobile-nav-link">NGO Portal</a>
+        <a href="admin-dashboard.html" class="mobile-nav-link">Admin Portal</a>
+      </div>
+    </div>
+  </div>
+
+  <main style="padding: 2.5rem 0 5rem;">
+    <div class="container" id="details-container">
+      <!-- Injected dynamically by js/details.js -->
+    </div>
+  </main>
+
+  <!-- Collection Request Modal (for NGOs) -->
+  <div class="modal-overlay" id="request-collection-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Request Surplus Food Collection</h3>
+        <button class="modal-close-btn btn-icon">&times;</button>
+      </div>
+      <form id="request-collection-form">
+        <div class="modal-body">
+          <div class="food-safety-banner" style="margin-bottom: 1.25rem;">
+            <div class="food-safety-banner-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <strong>Verified Organisation Collection Commitment:</strong>
+              <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: inherit;">
+                Your request informs the food donor of your transport readiness. Please arrive within the agreed window with clean thermal containers.
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estimated Community Beneficiaries / Servings <span class="required">*</span></label>
+            <input type="text" id="request-servings" class="form-control" placeholder="e.g. 45 individuals at Hope Harbor Shelter" required />
+            <div class="form-hint">Helps donor confirm the food will be utilized rapidly.</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Vehicle & Transport Type <span class="required">*</span></label>
+              <select id="request-vehicle" class="form-control" required>
+                <option value="Insulated Food Delivery Bags / Coolers">Insulated Cooler Bags (Thermal)</option>
+                <option value="Refrigerated Van (Cold Chain)">Refrigerated Chilled Van</option>
+                <option value="Station Wagon with Food Crates">Vehicle with Clean Covered Crates</option>
+                <option value="Light Commercial Truck">Light Commercial Truck</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Estimated Arrival Window <span class="required">*</span></label>
+              <input type="text" id="request-time" class="form-control" placeholder="e.g. Today at 8:30 PM (within 45 mins)" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes for Donor / Kitchen Team</label>
+            <textarea id="request-notes" class="form-control" placeholder="e.g. Our volunteer driver Marcus will arrive with ID and insulated catering boxes."></textarea>
+          </div>
+
+          <div class="form-check" style="background: var(--color-surface-soft); padding: 0.85rem; border-radius: var(--radius-md);">
+            <input type="checkbox" id="request-compliance" required />
+            <label for="request-compliance" class="form-check-label" style="font-size: 0.84rem;">
+              <strong>Food Safety Confirmation:</strong> Our organisation certifies that we have appropriate food-grade transport and will inspect packaging, aroma, and temperature upon collection before serving community members.
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Collection Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-title">FoodBridge</div>
+          <p class="footer-description">Rescue Food. Reduce Waste. Share Hope.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Platform</h4>
+          <div class="footer-links">
+            <a href="browse.html" class="footer-link">Browse Surplus Food</a>
+            <a href="how-it-works.html" class="footer-link">How It Works</a>
+            <a href="donor-dashboard.html" class="footer-link">Donor Portal</a>
+            <a href="ngo-dashboard.html" class="footer-link">NGO Portal</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About FoodBridge</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+            <a href="login.html" class="footer-link">Sign In</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Hackathon</h4>
+          <p style="font-size:0.85rem; color:#A3B5AA;">Engineered with HTML5, CSS3, Vanilla JS and Python Flask compatibility.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2024 FoodBridge Open-Source Project.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/ngo-capacity.js"></script>
+  <script src="js/details.js"></script>
+</body>
+</html>

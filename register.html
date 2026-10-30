@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – FoodBridge Platform</title>
+  <meta name="description" content="Register as a food donor or accredited community organisation on FoodBridge." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <a href="login.html" class="btn btn-outline btn-sm">Already registered? Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex-grow: 1; padding: 3rem 1.5rem 5rem;">
+    <div class="container container-narrow">
+      <div class="card" style="box-shadow: var(--shadow-xl); padding: 2.5rem;">
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Join FoodBridge</h1>
+          <p style="color: var(--color-text-muted);">
+            Connect surplus food with verified community organisations. Choose your organization type:
+          </p>
+
+          <!-- Role Toggle Buttons -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+            <div 
+              id="role-select-donor" 
+              class="card" 
+              style="cursor: pointer; border: 2px solid var(--color-primary); background: var(--color-primary-50); padding: 1.25rem; text-align: center; transition: all var(--transition-fast);"
+            >
+              <div style="font-size: 2rem; margin-bottom: 0.35rem;">👨‍🍳</div>
+              <strong style="display: block; font-size: 1.05rem; color: var(--color-primary);">Food Donor</strong>
+              <span style="font-size: 0.78rem; color: var(--color-text-muted);">Restaurant, Hotel, Hostel Mess, Supermarket, Event Catering</span>
+            </div>
+
+            <div 
+              id="role-select-ngo" 
+              class="card" 
+              style="cursor: pointer; border: 2px solid var(--color-border); background: var(--color-surface); padding: 1.25rem; text-align: center; transition: all var(--transition-fast);"
+            >
+              <div style="font-size: 2rem; margin-bottom: 0.35rem;">🤝</div>
+              <strong style="display: block; font-size: 1.05rem; color: var(--color-text);">Community NGO / Shelter</strong>
+              <span style="font-size: 0.78rem; color: var(--color-text-muted);">Shelter, Soup Kitchen, Community Food Bank, Student Pantry</span>
+            </div>
+          </div>
+        </div>
+
+        <form id="registration-form">
+          <input type="hidden" id="selected-role" value="donor" />
+
+          <!-- Account Contact Fields -->
+          <h3 style="font-size: 1.15rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border-light);">
+            Representative & Login Information
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-name">Representative Full Name <span class="required">*</span></label>
+              <input type="text" id="reg-name" class="form-control" placeholder="e.g. Chef Marcus Vance" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-email">Work / Official Email <span class="required">*</span></label>
+              <input type="email" id="reg-email" class="form-control" placeholder="e.g. chef@kitchen.com" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="reg-phone" class="form-control" placeholder="+1 (555) 000-0000" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-city">City / Operating Zone <span class="required">*</span></label>
+              <input type="text" id="reg-city" class="form-control" placeholder="e.g. Metro Central" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Password <span class="required">*</span></label>
+              <input type="password" id="reg-password" class="form-control" minlength="12" autocomplete="new-password" required />
+              <div class="form-hint">Use at least 12 characters.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-confirm-password">Confirm Password <span class="required">*</span></label>
+              <input type="password" id="reg-confirm-password" class="form-control" minlength="12" autocomplete="new-password" required />
+            </div>
+          </div>
+
+          <!-- Organization Specific Fields -->
+          <h3 style="font-size: 1.15rem; margin-top: 1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border-light);">
+            Organization Profile
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-org-name">
+                <span id="label-org-name">Establishment / Business Name</span> <span class="required">*</span>
+              </label>
+              <input type="text" id="reg-org-name" class="form-control" placeholder="e.g. Grand Heritage Palace" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-org-type">Category <span class="required">*</span></label>
+              <select id="reg-org-type" class="form-control" required>
+                <!-- Populated dynamically based on role -->
+                <option value="Restaurant">Restaurant / Bistro</option>
+                <option value="Hotel & Banquet">Hotel & Banquet Hall</option>
+                <option value="Hostel / Mess">Hostel / Campus Dining</option>
+                <option value="Supermarket">Supermarket / Grocery Retail</option>
+                <option value="Event Catering">Event & Wedding Catering</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- NGO Specific Fields Container -->
+          <div id="ngo-fields" style="display: none; background: var(--color-surface-soft); padding: 1.25rem; border-radius: var(--radius-lg); margin-bottom: 1.25rem; border: 1px dashed var(--color-border);">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-ngo-id">Government / Non-Profit Registration No. <span class="required">*</span></label>
+                <input type="text" id="reg-ngo-id" class="form-control" placeholder="e.g. NGO-REG-2024-XXXX" />
+                <div class="form-hint">Used by platform admin to verify tax-exempt or charity status.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="reg-capacity">Daily Meal Distribution Capacity</label>
+                <input type="text" id="reg-capacity" class="form-control" placeholder="e.g. 250 meals/day" />
+              </div>
+            </div>
+
+            <div class="food-safety-banner" style="margin-bottom: 0;">
+              <div class="food-safety-banner-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <strong>NGO Verification Protocol:</strong>
+                <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: inherit;">
+                  To protect public health, newly registered NGOs begin with <code>Pending Verification</code> status until documentation is validated by platform compliance officers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compliance Check -->
+          <div class="form-check" style="margin-top: 1.5rem; margin-bottom: 1.75rem;">
+            <input type="checkbox" id="reg-compliance" required />
+            <label for="reg-compliance" class="form-check-label" style="font-size: 0.88rem;">
+              I certify that our organization will uphold responsible food handling, transparency in dietary/allergen disclosures, and Good Samaritan donation guidelines.
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="reg-submit-btn">
+            Create Account & Launch Portal
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="container" style="text-align: center; font-size: 0.82rem; color: #819589;">
+      &copy; 2024 FoodBridge Open-Source Project.
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await ui.setupGlobalNavigation("register");
+
+      const roleDonorBtn = document.getElementById("role-select-donor");
+      const roleNgoBtn = document.getElementById("role-select-ngo");
+      const selectedRoleInput = document.getElementById("selected-role");
+      const ngoFields = document.getElementById("ngo-fields");
+      const labelOrgName = document.getElementById("label-org-name");
+      const orgTypeSelect = document.getElementById("reg-org-type");
+      const ngoIdInput = document.getElementById("reg-ngo-id");
+      const form = document.getElementById("registration-form");
+      const submitBtn = document.getElementById("reg-submit-btn");
+
+      // Check query param for default role
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("role") === "ngo") {
+        selectRole("ngo");
+      }
+
+      roleDonorBtn.addEventListener("click", () => selectRole("donor"));
+      roleNgoBtn.addEventListener("click", () => selectRole("ngo"));
+
+      function selectRole(role) {
+        selectedRoleInput.value = role;
+
+        if (role === "donor") {
+          roleDonorBtn.style.border = "2px solid var(--color-primary)";
+          roleDonorBtn.style.background = "var(--color-primary-50)";
+          roleNgoBtn.style.border = "2px solid var(--color-border)";
+          roleNgoBtn.style.background = "var(--color-surface)";
+          
+          ngoFields.style.display = "none";
+          ngoIdInput.required = false;
+          labelOrgName.textContent = "Establishment / Business Name";
+          
+          orgTypeSelect.innerHTML = `
+            <option value="Restaurant">Restaurant / Bistro</option>
+            <option value="Hotel & Banquet">Hotel & Banquet Hall</option>
+            <option value="Hostel / Mess">Hostel / Campus Dining</option>
+            <option value="Supermarket">Supermarket / Grocery Retail</option>
+            <option value="Event Catering">Event & Wedding Catering</option>
+          `;
+          submitBtn.textContent = "Create Food Donor Account";
+        } else {
+          roleNgoBtn.style.border = "2px solid var(--color-primary)";
+          roleNgoBtn.style.background = "var(--color-primary-50)";
+          roleDonorBtn.style.border = "2px solid var(--color-border)";
+          roleDonorBtn.style.background = "var(--color-surface)";
+
+          ngoFields.style.display = "block";
+          ngoIdInput.required = true;
+          labelOrgName.textContent = "Community Organisation / Charity Name";
+
+          orgTypeSelect.innerHTML = `
+            <option value="Homeless Shelter">Homeless Shelter</option>
+            <option value="Community Soup Kitchen">Community Soup Kitchen</option>
+            <option value="Food Bank / Pantry">Food Bank & Pantry</option>
+            <option value="Student Welfare Pantry">Student Welfare Pantry</option>
+            <option value="Elderly Nutrition Program">Elderly Nutrition Program</option>
+          `;
+          submitBtn.textContent = "Create Community NGO Account";
+        }
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const role = selectedRoleInput.value;
+        const name = document.getElementById("reg-name").value.trim();
+        const email = document.getElementById("reg-email").value.trim();
+        const phone = document.getElementById("reg-phone").value.trim();
+        const city = document.getElementById("reg-city").value.trim();
+        const organization = document.getElementById("reg-org-name").value.trim();
+        const orgType = document.getElementById("reg-org-type").value;
+        const regNumber = document.getElementById("reg-ngo-id") ? document.getElementById("reg-ngo-id").value.trim() : "";
+        const servingCapacity = document.getElementById("reg-capacity") ? document.getElementById("reg-capacity").value.trim() : "";
+        const password = document.getElementById("reg-password").value;
+        const confirmPassword = document.getElementById("reg-confirm-password").value;
+
+        if (password !== confirmPassword) {
+          ui.showToast("The passwords do not match.", "error", "Check Your Password");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Registering...";
+
+        try {
+          const newUser = await auth.register({
+            name,
+            email,
+            password,
+            role,
+            organization,
+            orgType,
+            phone,
+            city,
+            regNumber,
+            servingCapacity
+          });
+
+          ui.showToast(`Account created for ${newUser.organization}!`, "success", "Welcome to FoodBridge");
+
+          setTimeout(() => {
+            if (role === "donor") window.location.href = "donor-dashboard.html";
+            else window.location.href = "ngo-dashboard.html";
+          }, 400);
+        } catch (err) {
+          console.error(err);
+          ui.showToast(err.message, "error", "Registration Failed");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Create Account & Launch Portal";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

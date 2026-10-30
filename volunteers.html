@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer Coordination – FoodBridge</title>
+  <meta name="description" content="Join FoodBridge as a volunteer driver, loader, or coordinator. Help transport surplus food from donors to community organisations." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+
+  <style>
+    /* ── Volunteer page specific styles ── */
+    .volunteer-hero {
+      background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-700) 60%, #1E6B2F 100%);
+      padding: 5rem 0 4rem;
+      text-align: center;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+    .volunteer-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .volunteer-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .volunteer-hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.85);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+    .volunteer-types-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+    .volunteer-type-card {
+      background: var(--color-surface);
+      border: 2px solid transparent;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-md);
+    }
+    .volunteer-type-card:hover,
+    .volunteer-type-card.selected {
+      border-color: var(--color-primary-600);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+    }
+    .volunteer-type-card.selected {
+      background: var(--color-primary-50);
+    }
+    [data-theme="dark"] .volunteer-type-card.selected {
+      background: var(--color-primary-900);
+    }
+    .vol-type-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .vol-type-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .vol-type-desc {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+    .vol-requirements {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .vol-req-tag {
+      background: var(--color-primary-100);
+      color: var(--color-primary-800);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+    [data-theme="dark"] .vol-req-tag {
+      background: var(--color-primary-900);
+      color: var(--color-primary-300);
+    }
+    .opportunities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .opportunity-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--color-primary-500);
+      transition: box-shadow 0.2s;
+    }
+    .opportunity-card:hover {
+      box-shadow: var(--shadow-xl);
+    }
+    .opp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .opp-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+    .opp-location {
+      font-size: 0.85rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.25rem;
+    }
+    .opp-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+    }
+    .opp-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--color-text-secondary);
+    }
+    .safety-rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+    .safety-rule-card {
+      background: var(--color-primary-50);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      border-top: 3px solid var(--color-primary-500);
+    }
+    [data-theme="dark"] .safety-rule-card {
+      background: var(--color-primary-950);
+    }
+    .safety-rule-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .safety-rule-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 0.4rem;
+    }
+    .safety-rule-desc {
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+    .vol-form-section {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .form-row-2 { grid-template-columns: 1fr; }
+      .volunteer-hero { padding: 3.5rem 0 2.5rem; }
+    }
+    .avail-checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .avail-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--color-text-primary);
+    }
+    .vol-stats-bar {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: rgba(255,255,255,0.12);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem 2rem;
+      margin: 2rem auto;
+      max-width: 700px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+    }
+    .vol-stat-item {
+      text-align: center;
+    }
+    .vol-stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+    .vol-stat-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .active-volunteers-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .active-volunteers-table th {
+      background: var(--color-primary-50);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-primary-700);
+      font-weight: 700;
+    }
+    [data-theme="dark"] .active-volunteers-table th {
+      background: var(--color-primary-950);
+      color: var(--color-primary-300);
+    }
+    .active-volunteers-table td {
+      padding: 0.9rem 1rem;
+      font-size: 0.875rem;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+    }
+    .active-volunteers-table tr:last-child td { border-bottom: none; }
+    .active-volunteers-table tbody tr:hover { background: var(--color-bg); }
+  </style>
+</head>
+<body>
+
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse Surplus</a>
+        <a href="volunteers.html" class="nav-link active">Volunteers</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language toggle -->
+        <button class="lang-toggle-btn btn-icon" aria-label="Toggle language" title="Switch EN/हि">
+          <span style="font-size:0.8rem; font-weight:700; color:var(--color-text-secondary);">हि</span>
+        </button>
+        <!-- Notification Bell -->
+        <div class="notif-bell-wrapper" data-drawer="notif-drawer-vol">
+          <button class="btn-icon notif-bell-btn" aria-label="Notifications">
+            🔔<span class="notif-badge" id="notif-badge-vol" style="display:none;">0</span>
+          </button>
+          <div class="notif-drawer" id="notif-drawer-vol"></div>
+        </div>
+        <!-- Theme toggle -->
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <!-- Auth -->
+        <a href="login.html" class="btn btn-primary btn-sm">Sign In</a>
+        <button class="mobile-nav-toggle btn-icon" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <div class="mobile-drawer-content">
+      <div class="mobile-drawer-header">
+        <a href="index.html" class="brand-logo">
+          <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+        </a>
+        <button class="mobile-drawer-close btn-icon">&times;</button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="browse.html" class="mobile-nav-link">Browse Surplus</a>
+        <a href="volunteers.html" class="mobile-nav-link">Volunteers</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="how-it-works.html" class="mobile-nav-link">How It Works</a>
+        <a href="donor-dashboard.html" class="mobile-nav-link">Donor Portal</a>
+        <a href="ngo-dashboard.html" class="mobile-nav-link">NGO Portal</a>
+        <a href="contact.html" class="mobile-nav-link">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-drawer-overlay"></div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="volunteer-hero">
+    <div class="container">
+      <h1>🤝 Join as a Volunteer</h1>
+      <p>Help us bridge the gap between surplus food and people who need it. Volunteer drivers, loaders, and coordinators are the backbone of FoodBridge's last-mile operations.</p>
+      <div class="vol-stats-bar">
+        <div class="vol-stat-item">
+          <div class="vol-stat-value" id="vol-stat-drivers">48</div>
+          <div class="vol-stat-label">Active Drivers</div>
+        </div>
+        <div class="vol-stat-item">
+          <div class="vol-stat-value" id="vol-stat-trips">312</div>
+          <div class="vol-stat-label">Trips Completed</div>
+        </div>
+        <div class="vol-stat-item">
+          <div class="vol-stat-value" id="vol-stat-kg">2,840</div>
+          <div class="vol-stat-label">kg Transported</div>
+        </div>
+        <div class="vol-stat-item">
+          <div class="vol-stat-value" id="vol-stat-cities">9</div>
+          <div class="vol-stat-label">Cities Active</div>
+        </div>
+      </div>
+      <div style="display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:0.5rem 1.2rem; font-size:0.82rem; color:rgba(255,255,255,0.85);">
+        ⚠️ Demo data — all figures are illustrative for hackathon demonstration purposes.
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       VOLUNTEER TYPES
+  ═══════════════════════════════════════════ -->
+  <section style="padding: 4rem 0; background: var(--color-bg);">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <h2 style="font-size:2rem; font-weight:800; color:var(--color-text-primary);">Choose Your Role</h2>
+        <p style="color:var(--color-text-secondary); font-size:1rem;">Select the volunteer type that fits your availability and skills.</p>
+      </div>
+
+      <div class="volunteer-types-grid" id="vol-type-cards">
+        <div class="volunteer-type-card selected" data-type="driver" onclick="selectVolType(this, 'driver')">
+          <span class="vol-type-icon">🚗</span>
+          <div class="vol-type-title">Driver / Transport</div>
+          <div class="vol-type-desc">Use your own vehicle to collect food from donor locations and deliver to NGO collection points. Most critical role in the network.</div>
+          <div class="vol-requirements">
+            <span class="vol-req-tag">Own Vehicle</span>
+            <span class="vol-req-tag">Valid Licence</span>
+            <span class="vol-req-tag">Insulated Carrier</span>
+          </div>
+        </div>
+
+        <div class="volunteer-type-card" data-type="loader" onclick="selectVolType(this, 'loader')">
+          <span class="vol-type-icon">💪</span>
+          <div class="vol-type-title">Loader / Handler</div>
+          <div class="vol-type-desc">Help with physically loading and unloading food containers. Essential for bulk pickups from restaurants, hotels, and events.</div>
+          <div class="vol-requirements">
+            <span class="vol-req-tag">Physical Fitness</span>
+            <span class="vol-req-tag">Food Hygiene Aware</span>
+            <span class="vol-req-tag">Flexible Hours</span>
+          </div>
+        </div>
+
+        <div class="volunteer-type-card" data-type="coordinator" onclick="selectVolType(this, 'coordinator')">
+          <span class="vol-type-icon">📋</span>
+          <div class="vol-type-title">Coordinator</div>
+          <div class="vol-type-desc">Manage logistics remotely — match available drivers with pickup windows, confirm collections by phone, update donation statuses.</div>
+          <div class="vol-requirements">
+            <span class="vol-req-tag">Smartphone</span>
+            <span class="vol-req-tag">Communication Skills</span>
+            <span class="vol-req-tag">2+ hrs/week</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOD TRANSPORT SAFETY RULES
+  ═══════════════════════════════════════════ -->
+  <section style="padding: 3rem 0; background: var(--color-surface);">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2rem;">
+        <h2 style="font-size:1.75rem; font-weight:800; color:var(--color-text-primary);">🛡️ Food Transport Safety Requirements</h2>
+        <p style="color:var(--color-text-secondary); font-size:0.95rem;">
+          FoodBridge does not certify food safety, but requires all transport volunteers to follow these minimum standards. 
+          Refer to <strong>FSSAI Surplus Food Donation Regulations 2019</strong> for full guidelines.
+        </p>
+      </div>
+
+      <div class="safety-rules-grid">
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">❄️</div>
+          <div class="safety-rule-title">Temperature Control</div>
+          <div class="safety-rule-desc">Cold food must be kept below 5°C. Hot food above 60°C. Use insulated carriers or cooler boxes for all perishable items.</div>
+        </div>
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">📦</div>
+          <div class="safety-rule-title">Clean Containers</div>
+          <div class="safety-rule-desc">Only use food-grade, clean containers. Never mix food categories. Seal all containers to prevent contamination.</div>
+        </div>
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">⏱️</div>
+          <div class="safety-rule-title">Time Limits</div>
+          <div class="safety-rule-desc">Cooked food must be collected and delivered within the pickup deadline window. Never transport expired or visibly spoiled food.</div>
+        </div>
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">🧤</div>
+          <div class="safety-rule-title">Personal Hygiene</div>
+          <div class="safety-rule-desc">Wear gloves when handling open food. Wash hands before handling containers. Do not transport food if ill.</div>
+        </div>
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">🏷️</div>
+          <div class="safety-rule-title">Labelling</div>
+          <div class="safety-rule-desc">Confirm that all food is labelled with the FoodBridge donation ID, preparation time, and allergen information before transporting.</div>
+        </div>
+        <div class="safety-rule-card">
+          <div class="safety-rule-icon">📵</div>
+          <div class="safety-rule-title">Private Information</div>
+          <div class="safety-rule-desc">Never photograph or share private donor pickup addresses. Exact location is only shared after NGO acceptance through the platform.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ACTIVE VOLUNTEER OPPORTUNITIES
+  ═══════════════════════════════════════════ -->
+  <section style="padding: 4rem 0; background: var(--color-bg);">
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;">
+        <div>
+          <h2 style="font-size:1.75rem; font-weight:800; color:var(--color-text-primary);">🗺️ Active Opportunities</h2>
+          <p style="color:var(--color-text-secondary); margin:0;">Current volunteer assignments available in your area. <span style="color:var(--color-warning-600); font-size:0.82rem;">⚠️ Demo data only.</span></p>
+        </div>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <select class="form-control" id="opp-city-filter" style="min-width:140px; font-size:0.875rem;">
+            <option value="">All Cities</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bengaluru">Bengaluru</option>
+            <option value="Pune">Pune</option>
+            <option value="Hyderabad">Hyderabad</option>
+          </select>
+          <select class="form-control" id="opp-type-filter" style="min-width:140px; font-size:0.875rem;">
+            <option value="">All Types</option>
+            <option value="driver">Driver</option>
+            <option value="loader">Loader</option>
+            <option value="coordinator">Coordinator</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="opportunities-grid" id="opportunities-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       REGISTRATION FORM
+  ═══════════════════════════════════════════ -->
+  <section style="padding: 4rem 0; background: var(--color-surface);" id="volunteer-register">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <h2 style="font-size:2rem; font-weight:800; color:var(--color-text-primary);">📝 Register as a Volunteer</h2>
+        <p style="color:var(--color-text-secondary);">Fill in your details and we'll match you with suitable opportunities. No experience required — just willingness to help.</p>
+        <div style="display:inline-block; background:var(--color-warning-50); border:1px solid var(--color-warning-300); border-radius:8px; padding:0.5rem 1.25rem; font-size:0.82rem; color:var(--color-warning-700); margin-top:0.75rem;">
+          🔧 Demo Mode — volunteer registrations are stored in browser localStorage only. No real data is transmitted.
+        </div>
+      </div>
+
+      <div class="vol-form-section">
+        <form id="volunteer-registration-form" novalidate>
+
+          <!-- Personal Details -->
+          <div style="margin-bottom:2rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; color:var(--color-primary-700); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--color-primary-100);">👤 Personal Details</h3>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="vol-name">Full Name <span style="color:var(--color-error)">*</span></label>
+                <input type="text" class="form-control" id="vol-name" placeholder="e.g. Priya Sharma" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="vol-phone">Phone Number <span style="color:var(--color-error)">*</span></label>
+                <input type="tel" class="form-control" id="vol-phone" placeholder="+91 98765 43210" required />
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="vol-email">Email Address</label>
+                <input type="email" class="form-control" id="vol-email" placeholder="your@email.com" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="vol-city">City <span style="color:var(--color-error)">*</span></label>
+                <select class="form-control" id="vol-city" required>
+                  <option value="">Select city…</option>
+                  <option>Mumbai</option>
+                  <option>Delhi</option>
+                  <option>Bengaluru</option>
+                  <option>Pune</option>
+                  <option>Hyderabad</option>
+                  <option>Chennai</option>
+                  <option>Kolkata</option>
+                  <option>Ahmedabad</option>
+                  <option>Jaipur</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Volunteer Role -->
+          <div style="margin-bottom:2rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; color:var(--color-primary-700); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--color-primary-100);">🎯 Volunteer Role</h3>
+            <div class="form-group">
+              <label class="form-label" for="vol-type">Role Type <span style="color:var(--color-error)">*</span></label>
+              <select class="form-control" id="vol-type" required>
+                <option value="">Select role…</option>
+                <option value="driver">🚗 Driver / Transport</option>
+                <option value="loader">💪 Loader / Handler</option>
+                <option value="coordinator">📋 Coordinator (Remote)</option>
+              </select>
+            </div>
+            <!-- Vehicle details shown for drivers only -->
+            <div id="vehicle-fields" style="display:none;">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="vol-vehicle-type">Vehicle Type</label>
+                  <select class="form-control" id="vol-vehicle-type">
+                    <option value="">Select type…</option>
+                    <option>Two-Wheeler (Scooter/Bike)</option>
+                    <option>Auto-Rickshaw</option>
+                    <option>Car / Hatchback</option>
+                    <option>Car / SUV</option>
+                    <option>Van / Tempo</option>
+                    <option>Mini Truck</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="vol-capacity">Estimated Carry Capacity (kg)</label>
+                  <input type="number" class="form-control" id="vol-capacity" placeholder="e.g. 50" min="1" max="2000" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                  <input type="checkbox" id="vol-insulated" style="width:auto;" />
+                  I have an insulated carrier / cooler box available
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div style="margin-bottom:2rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; color:var(--color-primary-700); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--color-primary-100);">🗓️ Availability</h3>
+            <div class="form-group">
+              <label class="form-label">Available Days <span style="color:var(--color-error)">*</span></label>
+              <div class="avail-checkboxes">
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Mon" /> Mon</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Tue" /> Tue</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Wed" /> Wed</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Thu" /> Thu</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Fri" /> Fri</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Sat" /> Sat</label>
+                <label class="avail-checkbox-label"><input type="checkbox" name="avail-days" value="Sun" /> Sun</label>
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="vol-avail-from">Available From (time)</label>
+                <input type="time" class="form-control" id="vol-avail-from" value="08:00" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="vol-avail-to">Available Until (time)</label>
+                <input type="time" class="form-control" id="vol-avail-to" value="18:00" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="vol-hours">Hours per Week Available</label>
+              <select class="form-control" id="vol-hours">
+                <option value="2">2–4 hours/week</option>
+                <option value="5" selected>5–10 hours/week</option>
+                <option value="10">10–20 hours/week</option>
+                <option value="20">20+ hours/week (Full-time volunteer)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Emergency / Additional -->
+          <div style="margin-bottom:2rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; color:var(--color-primary-700); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--color-primary-100);">📝 Additional Information</h3>
+            <div class="form-group">
+              <label class="form-label" for="vol-languages">Languages Spoken</label>
+              <input type="text" class="form-control" id="vol-languages" placeholder="e.g. Hindi, English, Marathi" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="vol-note">Anything you'd like us to know?</label>
+              <textarea class="form-control" id="vol-note" rows="3" placeholder="e.g. I can only do weekend mornings, or I have cold storage in my vehicle…"></textarea>
+            </div>
+          </div>
+
+          <!-- Food Safety Acknowledgement -->
+          <div style="background:var(--color-warning-50); border:1px solid var(--color-warning-300); border-radius:var(--radius-lg); padding:1.25rem; margin-bottom:1.5rem;">
+            <p style="font-size:0.875rem; font-weight:600; color:var(--color-warning-800); margin-bottom:0.75rem;">🛡️ Volunteer Food Safety Acknowledgement</p>
+            <label style="display:flex; align-items:flex-start; gap:0.75rem; cursor:pointer; font-size:0.875rem; color:var(--color-text-primary);">
+              <input type="checkbox" id="vol-safety-ack" style="width:auto; margin-top:0.15rem; flex-shrink:0;" required />
+              <span>I understand that FoodBridge does not certify food safety. I agree to follow all food transport hygiene guidelines including temperature control, clean containers, and personal hygiene. I will not transport food that appears spoiled, unsafe, or past its collection deadline.</span>
+            </label>
+          </div>
+          <div style="background:var(--color-primary-50); border:1px solid var(--color-primary-200); border-radius:var(--radius-lg); padding:1rem; margin-bottom:1.5rem; font-size:0.82rem; color:var(--color-text-secondary);">
+            ℹ️ Your data will be stored in browser localStorage only (prototype mode). When backend integration is complete, volunteers will be matched by city and availability. Your private address and phone are never displayed publicly.
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+            🤝 Register as a FoodBridge Volunteer
+          </button>
+        </form>
+
+        <!-- Success message (hidden initially) -->
+        <div id="vol-success" style="display:none; text-align:center; padding:3rem 2rem;">
+          <div style="font-size:4rem; margin-bottom:1rem;">✅</div>
+          <h3 style="color:var(--color-primary-700); font-size:1.5rem; margin-bottom:0.75rem;">Thank You, Volunteer!</h3>
+          <p style="color:var(--color-text-secondary); margin-bottom:2rem;">Your registration has been saved. In the full product, a coordinator will match you with upcoming opportunities in your city.</p>
+          <div style="display:inline-block; background:var(--color-warning-50); border:1px solid var(--color-warning-200); border-radius:8px; padding:0.6rem 1.2rem; font-size:0.82rem; color:var(--color-warning-700); margin-bottom:1.5rem;">
+            ⚠️ Demo Mode – No real submission occurred. Data stored in localStorage only.
+          </div>
+          <br/>
+          <a href="index.html" class="btn btn-outline">Back to Home</a>
+          &nbsp;
+          <a href="browse.html" class="btn btn-primary">Browse Available Donations</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ACTIVE VOLUNTEERS TABLE (DEMO)
+  ═══════════════════════════════════════════ -->
+  <section style="padding: 4rem 0; background: var(--color-bg);">
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.75rem; font-weight:800; color:var(--color-text-primary);">🌟 Recent Volunteer Activity</h2>
+          <p style="color:var(--color-text-secondary); margin:0; font-size:0.875rem;">⚠️ Demo data — illustrative only. All names are fictional.</p>
+        </div>
+      </div>
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="active-volunteers-table">
+          <thead>
+            <tr>
+              <th>Volunteer</th>
+              <th>Role</th>
+              <th>City</th>
+              <th>Trips</th>
+              <th>kg Transported</th>
+              <th>Last Active</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="volunteers-table-body">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer style="background: var(--color-primary-950); color: rgba(255,255,255,0.7); padding: 3rem 0 1.5rem;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <div class="brand-logo" style="color:#FFFFFF; margin-bottom:0.75rem;">
+            <span>Food<span style="color:#84CC16;">Bridge</span></span>
+          </div>
+          <p style="font-size:0.875rem; line-height:1.6;">Rescue Food. Reduce Waste. Share Hope.</p>
+          <p style="font-size:0.75rem; color:rgba(255,255,255,0.4); margin-top:0.5rem;">FSSAI Surplus Food Donation Regulations 2019 compliant design.</p>
+        </div>
+        <div>
+          <h4 style="color:#FFFFFF; font-size:0.9rem; font-weight:700; margin-bottom:1rem;">Platform</h4>
+          <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:0.875rem;">
+            <a href="browse.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">Browse Donations</a>
+            <a href="how-it-works.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">How It Works</a>
+            <a href="volunteers.html" style="color:#84CC16; text-decoration:none;">Volunteer</a>
+            <a href="about.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">About FoodBridge</a>
+          </div>
+        </div>
+        <div>
+          <h4 style="color:#FFFFFF; font-size:0.9rem; font-weight:700; margin-bottom:1rem;">Portals</h4>
+          <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:0.875rem;">
+            <a href="donor-dashboard.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">Donor Dashboard</a>
+            <a href="ngo-dashboard.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">NGO Portal</a>
+            <a href="admin-dashboard.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">Admin Dashboard</a>
+            <a href="contact.html" style="color:rgba(255,255,255,0.7); text-decoration:none;">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:1.5rem; text-align:center; font-size:0.8rem; color:rgba(255,255,255,0.4);">
+        © 2025 FoodBridge. Open-source hackathon project. Not a commercial product. 
+        | <a href="about.html" style="color:rgba(255,255,255,0.5);">Good Samaritan Act Notice</a> 
+        | <a href="contact.html" style="color:rgba(255,255,255,0.5);">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/language.js"></script>
+
+  <script>
+    // Initialize notification bell and language manager
+    document.addEventListener('DOMContentLoaded', async function() {
+      if (typeof notificationSystem !== 'undefined') {
+        const user = await auth.getCurrentUser();
+        if (user) notificationSystem.initBell(user.role);
+      }
+      if (typeof languageManager !== 'undefined') {
+        languageManager.init();
+      }
+    });
+  </script>
+
+</body>
+</html>

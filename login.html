@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In – FoodBridge Platform</title>
+  <meta name="description" content="Sign in to your FoodBridge food donor or community organisation account." />
+  
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  <!-- Minimal Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M8 26 C 14 18, 26 18, 32 26" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M20 12 C 24 12, 26 15, 26 18 C 22 18, 20 15, 20 12 Z" fill="#84CC16"/>
+            <path d="M20 18 C 16 18, 14 15, 14 12 C 18 12, 20 15, 20 18 Z" fill="#FFFFFF"/>
+            <line x1="14" y1="23" x2="14" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="20" y1="21" x2="20" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="26" y1="23" x2="26" y2="28" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span>Food<span style="color:var(--color-accent);">Bridge</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" aria-label="Toggle theme"></button>
+        <a href="register.html" class="btn btn-outline btn-sm">Create Account</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem;">
+    <div style="max-width: 480px; width: 100%;">
+      
+      <!-- Auth Card -->
+      <div class="card" style="box-shadow: var(--shadow-lg);">
+        <h1 style="font-size: 1.65rem; margin-bottom: 0.35rem;">Sign In to FoodBridge</h1>
+        <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 1.75rem;">
+          Access your donor dashboard or NGO collection manager.
+        </p>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="login-email" 
+              class="form-control" 
+              placeholder="e.g. marcus@grandheritagehotel.com" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+              <label class="form-label" for="login-password" style="margin-bottom: 0;">Password <span class="required">*</span></label>
+              <span style="font-size: 0.8rem; color: var(--color-text-muted);">Use your registered account password.</span>
+            </div>
+            <input 
+              type="password" 
+              id="login-password" 
+              class="form-control" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
+
+          <div class="form-check" style="margin-bottom: 1.5rem;">
+            <input type="checkbox" id="login-remember" checked />
+            <label for="login-remember" class="form-check-label" style="font-size: 0.85rem;">
+              Remember my session on this device
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="login-submit-btn">
+            Sign In to Account
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border-light); font-size: 0.88rem; color: var(--color-text-muted);">
+          Don't have an account yet? 
+          <a href="register.html" style="font-weight: 700; color: var(--color-primary);">Register as Donor or NGO</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" style="padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="container" style="text-align: center; font-size: 0.82rem; color: #819589;">
+      &copy; 2024 FoodBridge Open-Source Project.
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      await ui.setupGlobalNavigation("login");
+
+      const form = document.getElementById("login-form");
+      const emailInput = document.getElementById("login-email");
+      const passwordInput = document.getElementById("login-password");
+      const submitBtn = document.getElementById("login-submit-btn");
+
+      // Standard form submission
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await performLogin();
+      });
+
+      async function performLogin() {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Authenticating...";
+
+        try {
+          const user = await auth.login(
+            emailInput.value.trim(),
+            passwordInput.value,
+            document.getElementById("login-remember").checked
+          );
+          ui.showToast(`Signed in as ${user.name} (${user.role.toUpperCase()})`, "success", "Welcome Back");
+
+          setTimeout(() => {
+            if (user.role === "donor") window.location.href = "donor-dashboard.html";
+            else if (user.role === "ngo") window.location.href = "ngo-dashboard.html";
+            else if (user.role === "admin") window.location.href = "admin-dashboard.html";
+            else window.location.href = "index.html";
+          }, 400);
+        } catch (err) {
+          console.error(err);
+          ui.showToast(err.message, "error", "Sign In Failed");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Sign In to Account";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
